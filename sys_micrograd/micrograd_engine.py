@@ -75,7 +75,7 @@ class Value:
         
         def _backward(): # this is simply the derivative of the tanh function, multiplied by the out.grad 
                             # since this is the chain rule 
-            self.grad = (1 - t**2) * out.grad
+            self.grad += (1 - t**2) * out.grad
         out._backward = _backward
         
         return out
