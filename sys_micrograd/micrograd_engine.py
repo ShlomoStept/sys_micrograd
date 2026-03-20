@@ -1,10 +1,38 @@
+"""Scalar-valued automatic differentiation engine.
+
+Implements a Value class that wraps scalar data, tracks operations in a
+directed acyclic computation graph, and supports reverse-mode automatic
+differentiation (backpropagation) via topological sort.
+
+This is the core autograd engine -- all neural network operations are built
+on top of the operations defined here.
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 class Value:
-    
+    """A scalar value node in the computation graph with automatic differentiation.
+
+    Wraps a Python float and tracks the operation that produced it, enabling
+    gradient computation via backpropagation. Supports addition, multiplication,
+    power, exp, tanh, and derived operations (subtraction, division, negation).
+
+    Attributes:
+        data: The scalar value.
+        grad: The accumulated gradient (derivative of the loss w.r.t. this value).
+        label: Human-readable name for visualization.
+
+    Example:
+        >>> a = Value(2.0, label='a')
+        >>> b = Value(3.0, label='b')
+        >>> c = a * b + a
+        >>> c.backward()
+        >>> a.grad  # dc/da = b + 1 = 4.0
+    """
+
     def __init__(self, data, _children=(), _op=(), label=''):
         self.data  = data
         self.grad = 0.0 

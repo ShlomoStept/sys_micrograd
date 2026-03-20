@@ -1,8 +1,13 @@
-# helper fucntions to visualize everything happening behind the scenes
+"""Computation graph visualization using Graphviz.
+
+Provides utilities to trace the DAG of Value operations and render it
+as an SVG/PNG diagram showing data values, gradients, and operations
+at each node.
+"""
 
 from graphviz import Digraph
 
-# Step 1 - build the connections/tree of operations and operands
+
 def trace(root):
     # This builds a set of all nodes and edges in a graph
     nodes, edges = set(), set()
